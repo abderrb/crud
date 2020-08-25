@@ -6,3 +6,7 @@ if(isset($_SESSION['user'])){
 }else{
     echo '<a href="'.URL.'/connexion.php">Connexion</a> - <a href="'.URL.'/inscription.php">Inscription</a>';
 }
+
+?>
+
+<a href= "<?= URL ?>/articles/ajout.php"> Ajouter une annonce</a>

@@ -3,7 +3,13 @@ require_once '../inc/header.php';
 
 require_once '../inc/nav.php';
 
-if (!isset($_SESSION['user'])) {
+// On vérifie si on a un id dans l'url
+if(isset($_GET['id']) && !empty($_GET['id'])){
+    // On a un id, on va chercher la catégorie dans la base
+    // On se connecte
+    require_once '../inc/connect.php';
+
+if (!isset($_GET['id'])) {
     header('Location: ' . URL . '/connexion.php');
     exit;
 }
@@ -29,8 +35,7 @@ if (!empty($_POST)) {
         && isset($_POST['contenu']) && !empty($_POST['contenu'])
         && isset($_POST['categorie']) && !empty($_POST['categorie'])
         && isset($_POST['departement']) && !empty($_POST['departement'])
-        && isset($_POST['image']) && !empty($_POST['image'])
-        && $_FILES['image']['error'] != UPLOAD_ERR_NO_FILE
+        
     ) {
         // On récupère et on nettoie les données
         $titre = strip_tags($_POST['titre']);
@@ -149,17 +154,8 @@ if (!empty($_POST)) {
         }
     }
 
-$sql = 'SELECT * FROM `categories` ORDER BY `name` ASC;';
+}
 
-$query = $db->query($sql);
-
-$categories = $query->fetchAll(PDO::FETCH_ASSOC);
-
-$sql = 'SELECT * FROM `departements`';
-
-$query = $db->query($sql);
-
-$departements = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -174,7 +170,7 @@ $departements = $query->fetchAll(PDO::FETCH_ASSOC);
     <?
     require_once '../inc/nav.php';
 ?>
-    <h1>Ajouter une annonce</h1>
+    <h1>Modifier une annonce</h1>
     <form method="post" enctype="multipart/form-data">
         <div>
             <label for="titre">Titre : </label>
